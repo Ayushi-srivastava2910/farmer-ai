@@ -1,0 +1,205 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ request.LANGUAGE_CODE }}">
+<head>
+<meta charset="UTF-8">
+<title>{% trans "Farmers AI System" %}</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body {
+    background: linear-gradient(135deg, #e6f4ea, #f4f7f6);
+}
+
+/* Navbar */
+.navbar {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Hero */
+.hero {
+    padding: 80px 20px;
+}
+
+.hero h1 {
+    font-size: 2.8rem;
+    font-weight: bold;
+}
+
+/* Buttons */
+.btn-custom {
+    border-radius: 30px;
+    padding: 10px 25px;
+    transition: 0.3s;
+}
+
+.btn-custom:hover {
+    transform: scale(1.05);
+}
+
+/* Cards */
+.feature-card {
+    border-radius: 15px;
+    background: white;
+    transition: 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+}
+
+/* Language dropdown */
+select {
+    border-radius: 20px;
+    padding: 5px 10px;
+    border: none;
+}
+
+/* Footer */
+footer {
+    margin-top: auto;
+}
+
+</style>
+
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <div class="container">
+
+        <a class="navbar-brand fw-bold" href="/">🌾 {% trans "Farmers AI" %}</a>
+
+        <div class="d-flex align-items-center gap-2">
+
+            <!-- 🌐 LANGUAGE SWITCH -->
+            <form action="/i18n/setlang/" method="post">
+                {% csrf_token %}
+
+                <select name="language" onchange="this.form.submit()">
+
+                    <option value="en" {% if request.LANGUAGE_CODE == 'en' %}selected{% endif %}>
+                        English
+                    </option>
+
+                    <option value="hi" {% if request.LANGUAGE_CODE == 'hi' %}selected{% endif %}>
+                        हिंदी
+                    </option>
+
+                </select>
+
+                <!-- 🔥 IMPORTANT: stay on same page -->
+                <input type="hidden" name="next" value="{{ request.path }}">
+            </form>
+
+            {% if user.is_authenticated %}
+
+                <span class="text-white">
+                    {% trans "Hello" %}, {{ user.username }}
+                </span>
+
+                <a href="/dashboard/" class="btn btn-light btn-custom">
+                    {% trans "Dashboard" %}
+                </a>
+
+                <a href="/logout/" class="btn btn-danger btn-custom">
+                    {% trans "Logout" %}
+                </a>
+
+            {% else %}
+
+                <a href="/login/" class="btn btn-light btn-custom">
+                    {% trans "Login" %}
+                </a>
+
+                <a href="/register/" class="btn btn-warning btn-custom">
+                    {% trans "Register" %}
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+</nav>
+
+<!-- HERO SECTION -->
+<div class="container text-center hero">
+
+    <h1 class="text-success">
+        🌿 {% trans "Smart AI Crop Disease Detection" %}
+    </h1>
+
+    <p class="mt-3 text-muted fs-5">
+        {% trans "Detect plant diseases instantly using Artificial Intelligence and get expert-level solutions." %}
+    </p>
+
+    {% if user.is_authenticated %}
+        <a href="/dashboard/" class="btn btn-success btn-lg btn-custom mt-3">
+            {% trans "Go to Dashboard" %} 🚀
+        </a>
+    {% else %}
+        <a href="/login/" class="btn btn-success btn-lg btn-custom mt-3">
+            {% trans "Get Started" %} 🚀
+        </a>
+    {% endif %}
+
+</div>
+
+<!-- FEATURES -->
+<div class="container mt-5">
+
+    <div class="row text-center g-4">
+
+        <div class="col-md-4">
+            <div class="feature-card shadow p-4">
+                <h3>📸</h3>
+                <h5>{% trans "Upload Image" %}</h5>
+                <p>{% trans "Upload crop images easily for fast diagnosis." %}</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="feature-card shadow p-4">
+                <h3>🤖</h3>
+                <h5>{% trans "AI Detection" %}</h5>
+                <p>{% trans "Advanced AI model detects diseases instantly." %}</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="feature-card shadow p-4">
+                <h3>💊</h3>
+                <h5>{% trans "Treatment" %}</h5>
+                <p>{% trans "Get accurate solutions and prevention tips." %}</p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- EXTRA SECTION -->
+<div class="container mt-5 text-center">
+
+    <h3 class="text-success">{% trans "Why Farmers AI?" %}</h3>
+
+    <p class="text-muted mt-3">
+        {% trans "Built using Django and AI models, this system helps farmers take quick decisions and prevent crop loss." %}
+    </p>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="bg-dark text-white text-center p-3 mt-5">
+    <p class="mb-0">
+        © 2026 {% trans "Farmers AI System | Built with love using Django and AI" %}
+    </p>
+</footer>
+
+</body>
+</html>
